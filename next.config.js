@@ -4,14 +4,18 @@ const withNextra = require('nextra')({
   latex: true
 })
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 module.exports = withNextra({
-  output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true
-  },
-  basePath: process.env.NODE_ENV === 'production' ? '/designeraiguide' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/designeraiguide/' : '',
+  ...(isProduction && {
+    output: 'export',
+    trailingSlash: true,
+    images: {
+      unoptimized: true
+    },
+    basePath: '/designeraiguide',
+    assetPrefix: '/designeraiguide/',
+  }),
   webpack(config) {
     const allowedSvgRegex = /components\/icons\/.+\.svg$/
 
